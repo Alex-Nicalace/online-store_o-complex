@@ -1,0 +1,8 @@
+.Header {
+  padding: rem(8) 0;
+  background-color: var(--bg-color-header);
+  color: var(--main-color);
+  border-radius: rem(15);
+  text-align: center;
+  @include adaptiveValue('font-size', 96, 40);
+}
