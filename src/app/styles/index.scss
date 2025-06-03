@@ -1,0 +1,18 @@
+@use './base/reset';
+@use './fonts/fonts';
+@use './variables/scss-variables' as *;
+@use './variables/themes/normal';
+@use './variables/themes/dark';
+
+html,
+body {
+  height: 100%;
+  min-width: $minWidth + px;
+}
+body {
+  line-height: normal;
+  font-family: $fontFamily;
+  font-size: $fontSize;
+  color: var(--maim-color);
+  background-color: var(--main-bg-color);
+}
