@@ -1,0 +1,18 @@
+.Feedback {
+  padding: rem(20) rem(15);
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-color);
+  border-radius: rem(15);
+
+  h1 {
+    &:not(:last-child) {
+      margin-bottom: rem(35);
+    }
+  }
+
+  p {
+    &:not(:last-child) {
+      margin-bottom: rem(20);
+    }
+  }
+}
