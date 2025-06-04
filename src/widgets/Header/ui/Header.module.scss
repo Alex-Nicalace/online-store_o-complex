@@ -1,4 +1,11 @@
 .Header {
+  @include adaptiveValue('margin-top', 55, 13);
+  &:not(:last-child) {
+    @include adaptiveValue('margin-bottom', 105, 97);
+  }
+}
+
+.title {
   padding: rem(8) 0;
   background-color: var(--bg-color-header);
   color: var(--main-color);
