@@ -1,12 +1,16 @@
 @use 'sass:math';
 
 .Container {
-  @if ($maxWidthContainer>0) {
+  @if ($maxWidthContainer > 0) {
     max-width: rem($maxWidthContainer);
     box-sizing: content-box;
     margin: 0 auto;
   }
-  @if ($containerPadding>0) {
+  @if ($containerPadding > 0) {
     padding-inline: rem(math.div($containerPadding, 2));
   }
+}
+
+.narrow {
+  max-width: rem(975);
 }

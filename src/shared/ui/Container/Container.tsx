@@ -8,13 +8,14 @@ function Container<T extends keyof JSX.IntrinsicElements>({
   tag,
   className,
   ref,
+  isNarrow,
   ...props
 }: ContainerProps<T>) {
   return createElement(
     tag,
     {
       ...props,
-      className: cn(cls.Container, className),
+      className: cn(cls.Container, className, { [cls.narrow]: isNarrow }),
       ref,
     },
     children
