@@ -1,0 +1,21 @@
+@use 'sass:math';
+
+.container {
+  max-width: rem($maxWidthContainer);
+  box-sizing: content-box;
+  margin: 0 auto;
+  padding-inline: rem(math.div($containerPadding, 2));
+
+  &_narrow {
+    max-width: rem(975);
+  }
+}
+
+.panel {
+  border-radius: rem(15);
+  background-color: var(--secondary-bg-color);
+
+  &_dark {
+    background-color: var(--bg-color-header);
+  }
+}
