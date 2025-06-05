@@ -1,6 +1,12 @@
+import { LoadReviews } from '@features/LoadReviews';
+
 // type TMainPageProps = { }
 function MainPage(/*{ }: TMainPageProps*/) {
-  return <div>MainPage</div>;
+  return (
+    <main>
+      <LoadReviews />
+    </main>
+  );
 }
 
 export default MainPage;

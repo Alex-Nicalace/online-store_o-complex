@@ -1,9 +1,9 @@
 import cn from 'classnames';
 
 import { Review } from '@entities/Review';
-import Container from '@shared/ui/Container';
 import cls from './LoadReviews.module.scss';
 import type { LoadReviewsProps } from './LoadReviews.types';
+import { Container } from '@shared/ui';
 
 const FEED_BACK_HTML = [
   {
@@ -22,11 +22,7 @@ const FEED_BACK_HTML = [
 
 function LoadReviews({ className }: LoadReviewsProps) {
   return (
-    <Container
-      tag="section"
-      isNarrow
-      className={cn(cls.LoadReviews, className)}
-    >
+    <Container as="section" narrow className={cn(cls.LoadReviews, className)}>
       {FEED_BACK_HTML.map((item) => (
         <Review key={item.id} html={item.text} className={cls.review} />
       ))}
