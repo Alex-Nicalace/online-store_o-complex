@@ -5,7 +5,7 @@ import { Panel } from '@shared/ui';
 import cls from './Review.module.scss';
 import type { ReviewProps } from './Review.types';
 
-function Review({ html, className }: ReviewProps) {
+export function Review({ html, className }: ReviewProps) {
   const cleanHtml = useSanitizedHtml(html);
 
   return (
@@ -16,5 +16,3 @@ function Review({ html, className }: ReviewProps) {
     />
   );
 }
-
-export default Review;
