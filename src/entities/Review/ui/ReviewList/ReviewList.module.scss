@@ -1,12 +1,11 @@
-.LoadReviews {
+.ReviewList {
   display: flex;
   flex-wrap: wrap;
-  // gap: rem(34);
   justify-content: space-between;
   @include adaptiveValue('row-gap', 34, 15);
 }
 
-.review {
+.item {
   flex: 0 0 percent(468, 975);
 
   @include mobile-d {

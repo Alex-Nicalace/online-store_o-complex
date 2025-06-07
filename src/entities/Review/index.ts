@@ -1,3 +1,2 @@
-import Review from './ui';
-
-export { Review };
+export * from './ui';
+export * from './model';
