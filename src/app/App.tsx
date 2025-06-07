@@ -1,7 +1,9 @@
 import { MainPage } from '@pages/MainPage';
-import './styles/index.scss';
 import { Header } from '@widgets/Header';
-import { Providers } from './providers';
+import { Providers } from '@app/providers';
+
+import './styles/index.scss';
+
 function App() {
   return (
     <Providers>
