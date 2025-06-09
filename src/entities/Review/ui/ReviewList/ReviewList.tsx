@@ -12,7 +12,6 @@ import type { ReviewListProps } from './ReviewList.types';
 export function ReviewList({ className }: ReviewListProps) {
   const { reviews, isLoading } = useAppSelector(selectReviewList);
   const dispatch = useAppDispatch();
-  console.log(reviews, isLoading);
 
   useEffect(() => {
     dispatch(fetchReviewList());

@@ -1,0 +1,14 @@
+.MakeOrder {
+  display: flex;
+  gap: rem(20);
+
+  @include mobile-d {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.input {
+  min-width: rem(270);
+  @include adaptiveValue('font-size', 36, 25);
+}
