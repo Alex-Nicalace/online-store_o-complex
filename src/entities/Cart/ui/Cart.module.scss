@@ -1,0 +1,11 @@
+.Cart {
+  display: grid;
+  grid-template-columns: minmax(percent(190, 688), auto) min-content 1fr; /* ширина колонок: name | quantity | price */
+  gap: rem(10) rem(20);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1; /* на всю ширину колоночной сетки */
+}
