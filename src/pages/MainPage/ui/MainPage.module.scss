@@ -1,0 +1,29 @@
+.reviews {
+  &:not(:last-child) {
+    @include adaptiveValue('margin-bottom', 240, 165);
+  }
+}
+
+.cart {
+  padding: rem(10);
+  max-width: rem(708);
+  margin: 0 auto;
+
+  &__title {
+    font-size: rem(36);
+
+    &:not(:last-child) {
+      margin-bottom: rem(10);
+    }
+
+    @include mobile-d {
+      text-align: center;
+    }
+  }
+
+  &__list {
+    &:not(:last-child) {
+      margin-bottom: rem(20);
+    }
+  }
+}
