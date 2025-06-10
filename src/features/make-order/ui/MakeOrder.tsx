@@ -25,7 +25,11 @@ export default function MakeOrder({ className }: MakeOrderProps) {
       onSubmit={handleSubmit}
       name="order"
     >
+      <label htmlFor="phone" className="sr-only">
+        Введите номер телефона
+      </label>
       <Input
+        id="phone"
         className={cls.input}
         name="phone"
         inputMode="tel"
