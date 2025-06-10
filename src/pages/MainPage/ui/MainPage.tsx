@@ -1,9 +1,10 @@
 import { Cart } from '@entities/Cart';
 import { ReviewList } from '@entities/Review';
 import { MakeOrder } from '@features/make-order';
-import { Container, Panel } from '@shared/ui';
+import { Button, Container, Panel } from '@shared/ui';
 
 import cls from './MainPage.module.scss';
+import { ProductList } from '@entities/product';
 
 // type TMainPageProps = { }
 function MainPage(/*{ }: TMainPageProps*/) {
@@ -18,6 +19,12 @@ function MainPage(/*{ }: TMainPageProps*/) {
         <Cart className={cls.cart__list} />
         <MakeOrder />
       </Panel>
+      <ProductList
+        className={cls.products}
+        renderActionSlotItem={() => {
+          return <Button>Купить</Button>;
+        }}
+      />
     </Container>
   );
 }

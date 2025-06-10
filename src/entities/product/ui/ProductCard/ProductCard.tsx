@@ -9,8 +9,8 @@ import type { ProductCardProps } from './ProductCard.types';
 export default function ProductCard({
   className,
   actionSlot,
-  image_url,
   title,
+  image_url,
   description,
   price,
 }: ProductCardProps) {

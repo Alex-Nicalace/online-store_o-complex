@@ -1,3 +1,2 @@
-import ProductCard from './ProductCard.tsx';
-
-export { ProductCard };
+export * from './ProductCard';
+export * from './ProductList';
