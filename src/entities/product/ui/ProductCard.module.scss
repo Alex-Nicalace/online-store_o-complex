@@ -1,0 +1,28 @@
+.card {
+  padding: rem(10);
+  display: grid;
+}
+.title {
+  text-align: center;
+}
+.link {
+}
+.image {
+  width: 100%;
+  aspect-ratio: 280/366;
+  object-fit: cover;
+  grid-row-start: 1;
+  border-radius: rem(15);
+}
+.description {
+}
+.price {
+}
+.actionSlot {
+  margin-top: rem(35);
+}
+
+.title,
+.price {
+  font-size: rem(36);
+}
