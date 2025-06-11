@@ -1,189 +1,48 @@
 import cn from 'classnames';
+import { useEffect } from 'react';
+
+import { fetchNextProductPage, selectProductList } from '@entities/product';
+import { useAppDispatch, useAppSelector } from '@shared/lib';
+import { Loader } from '@shared/ui';
 
 import { ProductCard } from '../ProductCard';
-
 import cls from './ProductList.module.scss';
 import type { ProductListProps } from './ProductList.types';
-
-const DATA = [
-  {
-    id: 1,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+1',
-    title: 'Bose ',
-    description:
-      'Отличный мультимедийный продукт с отличной производительностью',
-    price: 49294,
-  },
-  {
-    id: 2,
-    image_url: 'https://picsum.photos/400/300?random=2',
-    title: 'Huawei ',
-    description:
-      'Отличный технический продукт с отличной производительностью Отличный технический продукт с отличной производительностью',
-    price: 30651,
-  },
-  {
-    id: 3,
-    image_url: 'https://picsum.photos/400/300?random=3',
-    title: 'Huawei ',
-    description:
-      'Отличный мультимедийный продукт с высокой производительностью',
-    price: 37244,
-  },
-  {
-    id: 4,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+4',
-    title: 'Sony Телевизор Lite',
-    description: 'Отличный электронный продукт с высокой производительностью',
-    price: 28135,
-  },
-  {
-    id: 5,
-    image_url: 'https://picsum.photos/400/300?random=5',
-    title: 'LG Смартфон Max',
-    description: 'Отличный электронный продукт с высокой производительностью',
-    price: 5279,
-  },
-  {
-    id: 6,
-    image_url: 'https://dummyimage.com/400x300/cccccc/000000&text=Product+6',
-    title: 'Huawei Часы Max',
-    description:
-      'Отличный мультимедийный продукт с хорошей производительностью',
-    price: 39537,
-  },
-  {
-    id: 7,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+7',
-    title: 'Bose Ноутбук Premium',
-    description:
-      'Отличный мультимедийный продукт с отличной производительностью',
-    price: 25743,
-  },
-  {
-    id: 8,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+8',
-    title: 'Sony Смартфон Premium',
-    description:
-      'Отличный мультимедийный продукт с высокой производительностью',
-    price: 1213,
-  },
-  {
-    id: 9,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+9',
-    title: 'Huawei Телевизор Premium',
-    description: 'Отличный электронный продукт с хорошей производительностью',
-    price: 32007,
-  },
-  {
-    id: 10,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+10',
-    title: 'Bose Часы Pro',
-    description: 'Отличный электронный продукт с хорошей производительностью',
-    price: 25842,
-  },
-  {
-    id: 11,
-    image_url: 'https://picsum.photos/400/300?random=11',
-    title: 'Bose Ноутбук Max',
-    description: 'Отличный технический продукт с отличной производительностью',
-    price: 24048,
-  },
-  {
-    id: 12,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+12',
-    title: 'Huawei Смартфон Lite',
-    description: 'Отличный технический продукт с высокой производительностью',
-    price: 26446,
-  },
-  {
-    id: 13,
-    image_url: 'https://dummyimage.com/400x300/cccccc/000000&text=Product+13',
-    title: 'Sony Часы Lite',
-    description:
-      'Отличный мультимедийный продукт с отличной производительностью',
-    price: 34259,
-  },
-  {
-    id: 14,
-    image_url: 'https://picsum.photos/400/300?random=14',
-    title: 'Huawei Телевизор Premium',
-    description: 'Отличный технический продукт с хорошей производительностью',
-    price: 46312,
-  },
-  {
-    id: 15,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+15',
-    title: 'Xiaomi Телевизор Lite',
-    description:
-      'Отличный мультимедийный продукт с высокой производительностью',
-    price: 35816,
-  },
-  {
-    id: 16,
-    image_url: 'https://picsum.photos/400/300?random=16',
-    title: 'Bose Фотоаппарат Lite',
-    description:
-      'Отличный мультимедийный продукт с отличной производительностью',
-    price: 42077,
-  },
-  {
-    id: 17,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+17',
-    title: 'LG Наушники Premium',
-    description:
-      'Отличный мультимедийный продукт с отличной производительностью',
-    price: 24821,
-  },
-  {
-    id: 18,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+18',
-    title: 'Samsung Наушники Lite',
-    description: 'Отличный электронный продукт с высокой производительностью',
-    price: 13277,
-  },
-  {
-    id: 19,
-    image_url:
-      'https://placehold.co/400x300/EEE/31343C?font=raleway&text=Product+19',
-    title: 'Xiaomi Смартфон Lite',
-    description: 'Отличный технический продукт с отличной производительностью',
-    price: 15215,
-  },
-  {
-    id: 20,
-    image_url: 'https://dummyimage.com/400x300/cccccc/000000&text=Product+20',
-    title: 'Bose Часы Pro',
-    description:
-      'Отличный мультимедийный продукт с хорошей производительностью',
-    price: 4566,
-  },
-];
 
 export function ProductList({
   className,
   renderActionSlotItem,
 }: ProductListProps) {
+  const dispatch = useAppDispatch();
+  const { products, isLoading } = useAppSelector(selectProductList);
+
+  useEffect(() => {
+    const promise = dispatch(fetchNextProductPage());
+
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className={cn(cls.ProductList, className)}>
-      {DATA.map((product) => (
-        <ProductCard
-          key={product.id}
-          className={cls.item}
-          {...product}
-          actionSlot={renderActionSlotItem?.(product)}
-        />
-      ))}
+    <div>
+      <button onClick={() => dispatch(fetchNextProductPage())}>
+        Загрузить еще
+      </button>
+      <div className={cn(cls.ProductList, className)}>
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            className={cls.item}
+            {...product}
+            actionSlot={renderActionSlotItem?.(product)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
