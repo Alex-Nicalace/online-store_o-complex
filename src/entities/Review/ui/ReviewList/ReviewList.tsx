@@ -14,7 +14,11 @@ export function ReviewList({ className }: ReviewListProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchReviewList());
+    const promise = dispatch(fetchReviewList());
+
+    return () => {
+      promise.abort();
+    };
   }, [dispatch]);
 
   if (isLoading) {

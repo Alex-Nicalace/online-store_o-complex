@@ -4,5 +4,5 @@ import { getReviews } from '@shared/api';
 
 export const fetchReviewList = createAsyncThunk(
   'reviews/fetchReviewList',
-  getReviews
+  async (_, { signal }) => getReviews({ signal })
 );
