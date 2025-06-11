@@ -1,8 +1,12 @@
 import cn from 'classnames';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { fetchNextProductPage, selectProductList } from '@entities/product';
-import { useAppDispatch, useAppSelector } from '@shared/lib';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useIntersectionObserver,
+} from '@shared/lib';
 import { Loader } from '@shared/ui';
 
 import { ProductCard } from '../ProductCard';
@@ -14,35 +18,40 @@ export function ProductList({
   renderActionSlotItem,
 }: ProductListProps) {
   const dispatch = useAppDispatch();
-  const { products, isLoading } = useAppSelector(selectProductList);
+  const { products, isLoading, hasMore } = useAppSelector(selectProductList);
+  const divLoadMoreRef = useRef<HTMLDivElement>(null);
+  const canLoadMore = products.length > 0 && !isLoading && hasMore;
 
-  useEffect(() => {
-    const promise = dispatch(fetchNextProductPage());
+  useEffect(
+    function loadFirstPage() {
+      const promise = dispatch(fetchNextProductPage());
 
-    return () => {
-      promise.abort();
-    };
-  }, [dispatch]);
+      return () => {
+        promise.abort();
+      };
+    },
+    [dispatch]
+  );
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  useIntersectionObserver(canLoadMore ? divLoadMoreRef : null, {
+    onIntersecting: ({ isIntersecting }) => {
+      if (!isIntersecting) return;
+      dispatch(fetchNextProductPage());
+    },
+  });
 
   return (
-    <div>
-      <button onClick={() => dispatch(fetchNextProductPage())}>
-        Загрузить еще
-      </button>
-      <div className={cn(cls.ProductList, className)}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            className={cls.item}
-            {...product}
-            actionSlot={renderActionSlotItem?.(product)}
-          />
-        ))}
-      </div>
+    <div className={cn(cls.ProductList, className)}>
+      {products.map((product) => (
+        <ProductCard
+          key={product.id}
+          className={cls.item}
+          {...product}
+          actionSlot={renderActionSlotItem?.(product)}
+        />
+      ))}
+      {isLoading && <Loader className={cls.item} />}
+      {canLoadMore && <div className={cls.item} ref={divLoadMoreRef} />}
     </div>
   );
 }
