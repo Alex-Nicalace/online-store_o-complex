@@ -5,4 +5,5 @@ export interface ProductListState {
   pages: number | null;
   isLoading: boolean;
   error: string | null;
+  hasMore: boolean;
 }

@@ -7,6 +7,7 @@ const initialState: ProductListState = {
   pages: null,
   isLoading: false,
   error: null,
+  hasMore: true,
 };
 
 const productListSlice = createSlice({
@@ -23,6 +24,7 @@ const productListSlice = createSlice({
         state.isLoading = false;
         state.products.push(...(action.payload.items || []));
         state.pages = action.payload.page;
+        state.hasMore = action.payload.total > state.products.length;
       })
       .addCase(fetchNextProductPage.rejected, (state, action) => {
         state.isLoading = false;

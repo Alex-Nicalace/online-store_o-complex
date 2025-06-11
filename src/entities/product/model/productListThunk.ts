@@ -10,5 +10,11 @@ export const fetchNextProductPage = createAsyncThunk(
     const { pages } = state.productList;
     const page = (pages ?? 0) + 1;
     return getProducts({ page, pageSize: PRODUCT_PAGE_SIZE, signal });
+  },
+  {
+    condition: (_, { getState }) => {
+      const state = getState() as { productList: ProductListState };
+      return state.productList.hasMore;
+    },
   }
 );
