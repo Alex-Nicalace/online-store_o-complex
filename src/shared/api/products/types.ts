@@ -1,6 +1,7 @@
 export interface GetProductsArgs {
   page: number;
   pageSize: number;
+  signal?: AbortSignal;
 }
 
 export interface ProductsResponse {
