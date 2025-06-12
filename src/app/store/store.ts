@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { cartListReducer } from '@entities/Cart';
+import {
+  cartListenerMiddleware,
+  cartListReducer,
+  loadCartItemsFromStorage,
+} from '@entities/Cart';
 import { productListReducer } from '@entities/product';
 import { reviewListReducer } from '@entities/Review';
 
@@ -10,4 +14,11 @@ export const store = configureStore({
     cartList: cartListReducer,
     productList: productListReducer,
   },
+  preloadedState: {
+    cartList: {
+      items: loadCartItemsFromStorage(),
+    },
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cartListenerMiddleware.middleware),
 });
