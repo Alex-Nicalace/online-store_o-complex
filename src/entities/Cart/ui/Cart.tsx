@@ -12,7 +12,7 @@ export default function Cart({ className }: CartProps) {
   return (
     <ul className={cn(cls.Cart, className)}>
       {itemsCart.map((item) => (
-        <li key={item.id} className={cls.item}>
+        <li key={item.productId} className={cls.item}>
           <p>{item.name}</p>
           <p>x{item.quantity}</p>
           <p>{formatCurrency(item.price * item.quantity)}</p>

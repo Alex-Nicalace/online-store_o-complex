@@ -20,6 +20,10 @@
 }
 .actionSlot {
   margin-top: rem(35);
+
+  & > * {
+    width: 100%;
+  }
 }
 
 .title,

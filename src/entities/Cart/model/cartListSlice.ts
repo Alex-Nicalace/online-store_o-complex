@@ -1,74 +1,66 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { CartItem, CartListState } from './types';
+import { getStrKey } from '../lib';
+import type { CartListState, CartNewItem } from './types';
 
 const initialState: CartListState = {
-  items: [
-    {
-      id: 1,
-      name: 'товар1',
-      quantity: 1,
-      price: 100,
-    },
-    {
-      id: 2,
-      name: 'товар2',
-      quantity: 44,
-      price: 150,
-    },
-    {
-      id: 3,
-      name: 'товар3',
-      quantity: 3,
-      price: 200,
-    },
-  ],
+  items: {},
 };
 
 const cartListSlice = createSlice({
   name: 'cartList',
   initialState,
   reducers: {
-    addItem(state, action: PayloadAction<Omit<CartItem, 'quantity'>>) {
-      state.items.push({ ...action.payload, quantity: 1 });
+    addItem(state, action: PayloadAction<CartNewItem>) {
+      const id = getStrKey(action.payload.productId);
+      state.items[id] = {
+        ...action.payload,
+        quantity: 1,
+      };
     },
     removeItem(state, action: PayloadAction<number>) {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+      delete state.items[getStrKey(action.payload)];
     },
     incrementItem(state, action: PayloadAction<number>) {
-      state.items = state.items.map((item) => {
-        if (item.id === action.payload) {
-          return { ...item, quantity: item.quantity + 1 };
-        }
-        return item;
-      });
+      const id = getStrKey(action.payload);
+      const item = state.items[id];
+      if (!item) return;
+
+      state.items[id] = {
+        ...item,
+        quantity: item.quantity + 1,
+      };
     },
     decrementItem(state, action: PayloadAction<number>) {
-      state.items = state.items
-        .map((item) => {
-          if (item.id === action.payload) {
-            return { ...item, quantity: item.quantity - 1 };
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0);
+      const id = getStrKey(action.payload);
+      const item = state.items[id];
+      if (!item) return;
+
+      if (item.quantity > 1) {
+        state.items[id] = {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      } else {
+        delete state.items[id];
+      }
     },
     setQuantityById(
       state,
       action: PayloadAction<{ id: number; quantity: number }>
     ) {
-      state.items = state.items
-        .map((item) => {
-          if (item.id === action.payload.id) {
-            return { ...item, quantity: action.payload.quantity };
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0);
+      const id = getStrKey(action.payload.id);
+      if (action.payload.quantity <= 0) {
+        delete state.items[id];
+      } else {
+        const item = state.items[id];
+        if (!item) return;
+        state.items[id] = {
+          ...item,
+          quantity: action.payload.quantity,
+        };
+      }
     },
-  },
-  selectors: {
-    selectCartList: (state) => state.items,
   },
 });
 
@@ -81,5 +73,3 @@ export const {
   decrementItem,
   setQuantityById,
 } = cartListSlice.actions;
-
-export const { selectCartList } = cartListSlice.selectors;
