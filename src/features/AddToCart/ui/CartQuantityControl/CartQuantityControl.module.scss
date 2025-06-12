@@ -1,0 +1,14 @@
+.CartQuantityControl {
+  display: grid;
+  grid-template-columns: rem(68) 1fr rem(68);
+  gap: rem(7);
+}
+
+.input {
+  width: 100%;
+  text-align: center;
+}
+
+.button {
+  padding-inline: 0;
+}
