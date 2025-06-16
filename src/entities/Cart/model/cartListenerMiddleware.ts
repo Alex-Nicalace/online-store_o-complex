@@ -2,6 +2,7 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
 import {
   addItem,
+  clear,
   decrementItem,
   incrementItem,
   removeItem,
@@ -16,7 +17,8 @@ cartListenerMiddleware.startListening({
     removeItem,
     incrementItem,
     decrementItem,
-    setQuantityById
+    setQuantityById,
+    clear
   ),
   effect: (_, listenerApi) => {
     localStorage.setItem(

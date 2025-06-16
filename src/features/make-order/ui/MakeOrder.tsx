@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import cn from 'classnames';
 
-import { selectCartList } from '@entities/Cart';
+import { clear, selectCartList } from '@entities/Cart';
 import { createOrder } from '@shared/api';
 import {
   registerMask,
+  useAppDispatch,
   useAppSelector,
   useLocalStorageState,
 } from '@shared/lib';
-import { Button, Input } from '@shared/ui';
+import { Button, Input, useNotification } from '@shared/ui';
 
 import { useMapCartItemsToOrderCartEntitys } from '../lib';
 import cls from './MakeOrder.module.scss';
@@ -22,6 +23,8 @@ export default function MakeOrder({ className }: MakeOrderProps) {
   const cartList = useAppSelector(selectCartList);
   const cart = useMapCartItemsToOrderCartEntitys(cartList);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showNotification } = useNotification();
+  const dispatch = useAppDispatch();
 
   const mask = '+7 (___) ___-__-__';
   const regexp = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
@@ -34,10 +37,26 @@ export default function MakeOrder({ className }: MakeOrderProps) {
     setIsSubmitting(true);
     try {
       const response = await createOrder(dataToSend);
-      if (!response.success) throw new Error(response.error);
-      console.log(response);
+      if (response.success) {
+        showNotification({
+          type: 'success',
+          message: 'Заказ успешно создан',
+        });
+        dispatch(clear());
+      } else {
+        showNotification({
+          type: 'error',
+          message: response.error,
+        });
+      }
     } catch (error) {
-      if (error instanceof Error) console.log(error.message);
+      showNotification({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Неизвестная ошибка при создании заказа',
+      });
     }
     setIsSubmitting(false);
   }

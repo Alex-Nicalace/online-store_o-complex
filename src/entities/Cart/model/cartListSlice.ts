@@ -21,6 +21,9 @@ const cartListSlice = createSlice({
     removeItem(state, action: PayloadAction<number>) {
       delete state.items[getStrKey(action.payload)];
     },
+    clear(state) {
+      state.items = {};
+    },
     incrementItem(state, action: PayloadAction<number>) {
       const id = getStrKey(action.payload);
       const item = state.items[id];
@@ -72,4 +75,5 @@ export const {
   incrementItem,
   decrementItem,
   setQuantityById,
+  clear,
 } = cartListSlice.actions;
