@@ -1,0 +1,23 @@
+.notification {
+  margin: auto;
+  background-color: transparent;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+}
+
+.panel {
+  padding: rem(16);
+  display: grid;
+  justify-items: center;
+  gap: rem(25);
+}
+
+.success {
+  color: var(--success-color);
+}
+
+.error {
+  color: var(--error-color);
+}
