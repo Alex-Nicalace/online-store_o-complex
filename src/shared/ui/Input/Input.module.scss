@@ -1,7 +1,17 @@
 .Input {
   padding: rem(12) rem(16);
   border-radius: rem(15);
+  border: rem(2) solid var(--main-bg-color);
   background-color: var(--main-bg-color);
   font-size: rem(36);
   color: var(--main-color);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &:user-invalid {
+    border-color: red;
+  }
 }
