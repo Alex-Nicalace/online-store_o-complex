@@ -1,8 +1,27 @@
 import cn from 'classnames';
 
-import type { ButtonProps } from './Button.types';
+import { Loader } from '../Loader';
 import cls from './Button.module.scss';
+import type { ButtonProps } from './Button.types';
 
-export function Button({ className, ...props }: ButtonProps) {
-  return <button className={cn(cls.Button, className)} {...props} />;
+export function Button({
+  className,
+  isPending,
+  children,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(cls.Button, className)}
+      {...props}
+      disabled={isPending}
+    >
+      {isPending && (
+        <span className={cls.loader}>
+          <Loader isSmall />
+        </span>
+      )}
+      {children}
+    </button>
+  );
 }

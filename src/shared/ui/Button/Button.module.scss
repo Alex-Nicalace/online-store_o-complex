@@ -1,7 +1,20 @@
 .Button {
+  position: relative;
   padding: rem(12) rem(57);
   background-color: var(--main-bg-color);
   font-size: rem(36);
   border-radius: rem(15);
   color: var(--main-color);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+}
+
+.loader {
+  position: absolute;
+  left: rem(15);
+  top: 50%;
+  transform: translateY(-50%);
 }
