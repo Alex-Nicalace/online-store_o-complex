@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import cn from 'classnames';
 
-import { registerMask } from '@shared/lib';
+import { selectCartList } from '@entities/Cart';
+import { createOrder } from '@shared/api';
+import {
+  registerMask,
+  useAppSelector,
+  useLocalStorageState,
+} from '@shared/lib';
 import { Button, Input } from '@shared/ui';
 
+import { useMapCartItemsToOrderCartEntitys } from '../lib';
 import cls from './MakeOrder.module.scss';
 
 type MakeOrderProps = {
@@ -10,20 +18,35 @@ type MakeOrderProps = {
 };
 
 export default function MakeOrder({ className }: MakeOrderProps) {
+  const [phone, setPhone] = useLocalStorageState('', 'order-phone');
+  const cartList = useAppSelector(selectCartList);
+  const cart = useMapCartItemsToOrderCartEntitys(cartList);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const mask = '+7 (___) ___-__-__';
-  const options = { isHideMask: false, setValue: console.log };
+  const regexp = /^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/;
+  const options = { isHideMask: false, setValue: setPhone };
   const handlers = registerMask(mask, options);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(' phone', e.currentTarget.phone.value);
+    const dataToSend = { phone: phone.replace(/\D/g, ''), cart };
+    setIsSubmitting(true);
+    try {
+      const response = await createOrder(dataToSend);
+      if (!response.success) throw new Error(response.error);
+      console.log(response);
+    } catch (error) {
+      if (error instanceof Error) console.log(error.message);
+    }
+    setIsSubmitting(false);
   }
 
   return (
     <form
       className={cn(cls.MakeOrder, className)}
       onSubmit={handleSubmit}
-      name="order"
+      name="createOrder"
     >
       <label htmlFor="phone" className="sr-only">
         Введите номер телефона
@@ -36,10 +59,12 @@ export default function MakeOrder({ className }: MakeOrderProps) {
         type="tel"
         placeholder={mask}
         required
-        pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}"
+        pattern={regexp.source}
+        defaultValue={phone}
+        disabled={isSubmitting}
         {...handlers}
       />
-      <Button>заказать</Button>
+      <Button isPending={isSubmitting}>заказать</Button>
     </form>
   );
 }
