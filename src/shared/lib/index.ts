@@ -3,3 +3,4 @@ export * from './store';
 export * from './formatters';
 export * from './mask';
 export * from './observers';
+export * from './storage';
